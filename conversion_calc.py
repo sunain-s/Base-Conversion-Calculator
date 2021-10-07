@@ -1,3 +1,13 @@
+def binary_inversion(binary):
+    inverted_bin = ''
+    for bit in binary:
+        if bit == '0':
+            bit = '1'
+        elif bit == '1':
+            bit = '0'
+        inverted_bin += bit
+    return inverted_bin
+
 def leading_zeros(binary, length):
     binary = binary[::-1]
     if len(binary) % length:
