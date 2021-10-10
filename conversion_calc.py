@@ -42,3 +42,9 @@ def neg_den_to_twos_comp_bin(denary):
     inverted_bin = binary_inversion(binary)
     neg_binary = den_to_bin(bin_to_den(inverted_bin) + 1, leading=8)
     return neg_binary
+
+def twos_comp_bin_to_neg_den(binary): 
+    binary = den_to_bin(bin_to_den(binary) - 1, leading=8)
+    inverted_bin = binary_inversion(binary)
+    denary = bin_to_den(inverted_bin)
+    return f'-{denary}'
