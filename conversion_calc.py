@@ -36,3 +36,9 @@ def den_to_bin(denary, leading):
     binary = leading_zeros(binary, leading)
     binary = binary[::-1]
     return binary
+
+def neg_den_to_twos_comp_bin(denary):
+    binary = den_to_bin(denary, leading=8)
+    inverted_bin = binary_inversion(binary)
+    neg_binary = den_to_bin(bin_to_den(inverted_bin) + 1, leading=8)
+    return neg_binary
