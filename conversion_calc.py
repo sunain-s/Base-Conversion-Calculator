@@ -58,3 +58,12 @@ def den_to_hex(denary):
         hex += hex_list[remainder]
     hex = hex[::-1]
     return hex
+
+def bin_to_hex(binary):
+    binary = leading_zeros(binary)
+    binary = binary[::-1]
+    for i in range(1, (len(binary) // 4) + 1):
+        nibble = binary[4 * (i -1):4 * i]
+        nibble_den = bin_to_den(nibble)
+        hex = den_to_hex(nibble_den)
+    return hex
