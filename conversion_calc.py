@@ -48,3 +48,13 @@ def twos_comp_bin_to_neg_den(binary):
     inverted_bin = binary_inversion(binary)
     denary = bin_to_den(inverted_bin)
     return f'-{denary}'
+
+def den_to_hex(denary):
+    hex_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+    hex = ''
+    while denary > 0:
+        remainder = denary % 16
+        denary //= 16
+        hex += hex_list[remainder]
+    hex = hex[::-1]
+    return hex
