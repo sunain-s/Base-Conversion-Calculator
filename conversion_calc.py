@@ -77,3 +77,12 @@ def hex_to_den(hexadecimal):
         denary += hex_list.index(hex) * 16**power
         power += 1
     return denary
+
+def hex_to_bin(hexadecimal):
+    hex = [hex for hex in hexadecimal]
+    binary = ''
+    for i in hex:
+        denary = hex_to_den(i)
+        bin = den_to_bin(denary, leading=4)
+        binary += bin
+    return binary
