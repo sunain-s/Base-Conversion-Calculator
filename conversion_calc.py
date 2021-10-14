@@ -67,3 +67,13 @@ def bin_to_hex(binary):
         nibble_den = bin_to_den(nibble)
         hex = den_to_hex(nibble_den)
     return hex
+
+def hex_to_den(hexadecimal):
+    hex_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+    denary = 0
+    power = 0
+    hexadecimal = hexadecimal[::-1]
+    for hex in hexadecimal:
+        denary += hex_list.index(hex) * 16**power
+        power += 1
+    return denary
