@@ -71,3 +71,17 @@ def hex_to_bin(hexadecimal):
         nibble = den_to_n_base(denary, 2)
         binary += nibble
     return binary
+
+def den_to_sm_bin(denary):
+    if denary < 0:
+        abs_den = denary * -1
+    else:
+        abs_den = denary
+    binary = den_to_n_base(abs_den, 2)
+    binary = binary[::-1]
+    if denary < 0:
+        binary += '1'
+    else:
+        binary += '0'
+    binary = binary[::-1]
+    return binary
