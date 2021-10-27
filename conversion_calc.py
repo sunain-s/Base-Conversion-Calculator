@@ -15,6 +15,18 @@ def leading_zeros(binary, length):
         binary += '0' * zeros
     return binary
 
+def den_to_n_base(denary, base):
+    base_num = ''
+    while denary > 0:
+        digit = int(denary % base)
+        if digit < 10:
+            base_num += str(digit)
+        else:
+            base_num += chr(ord('A') + digit - 10)
+        denary //= base
+    base_num = base_num[::-1]
+    return base_num
+
 def bin_to_den(binary):
     binary = binary[::-1]
     denary = 0
@@ -25,48 +37,21 @@ def bin_to_den(binary):
         power += 1
     return denary
 
-def den_to_bin(denary, leading):
-    binary = ''
-    if denary < 0:
-        denary *= -1
-    while denary > 0:
-        remainder = denary % 2
-        binary += str(remainder)
-        denary //= 2
-    binary = leading_zeros(binary, leading)
-    binary = binary[::-1]
-    return binary
-
 def neg_den_to_twos_comp_bin(denary):
-    binary = den_to_bin(denary, leading=8)
-    inverted_bin = binary_inversion(binary)
-    neg_binary = den_to_bin(bin_to_den(inverted_bin) + 1, leading=8)
-    return neg_binary
+    length = len(den_to_n_base(denary * -1, 2)) + 1
+    s = bin(denary & int('1' * length, 2))[2:]
+    return ("{0:0>%s}" % length).format(s)
 
 def twos_comp_bin_to_neg_den(binary): 
-    binary = den_to_bin(bin_to_den(binary) - 1, leading=8)
+    binary = den_to_n_base(bin_to_den(binary) - 1, 2)
     inverted_bin = binary_inversion(binary)
     denary = bin_to_den(inverted_bin)
     return f'-{denary}'
 
-def den_to_hex(denary):
-    hex_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
-    hex = ''
-    while denary > 0:
-        remainder = denary % 16
-        denary //= 16
-        hex += hex_list[remainder]
-    hex = hex[::-1]
-    return hex
-
 def bin_to_hex(binary):
-    binary = leading_zeros(binary)
-    binary = binary[::-1]
-    for i in range(1, (len(binary) // 4) + 1):
-        nibble = binary[4 * (i -1):4 * i]
-        nibble_den = bin_to_den(nibble)
-        hex = den_to_hex(nibble_den)
-    return hex
+    denary = bin_to_den(binary)
+    hexadecimal = den_to_n_base(denary, 16)
+    return hexadecimal
 
 def hex_to_den(hexadecimal):
     hex_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
@@ -83,6 +68,6 @@ def hex_to_bin(hexadecimal):
     binary = ''
     for i in hex:
         denary = hex_to_den(i)
-        bin = den_to_bin(denary, leading=4)
-        binary += bin
+        nibble = den_to_n_base(denary, 2)
+        binary += nibble
     return binary
