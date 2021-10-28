@@ -85,3 +85,10 @@ def den_to_sm_bin(denary):
         binary += '0'
     binary = binary[::-1]
     return binary
+    
+def neg_den_to_ones_comp_bin(denary):
+    denary *= -1
+    binary = den_to_n_base(denary, 2)
+    binary = leading_zeros(binary, 8)[::-1]
+    ones_comp_bin = binary_inversion(binary)
+    return ones_comp_bin
