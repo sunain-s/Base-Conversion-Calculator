@@ -92,3 +92,23 @@ def neg_den_to_ones_comp_bin(denary):
     binary = leading_zeros(binary, 8)[::-1]
     ones_comp_bin = binary_inversion(binary)
     return ones_comp_bin
+
+def octal_to_den(octal):
+    octal = str(octal)[::-1]
+    denary = 0
+    power = 0
+    for oct in octal:
+        denary += int(oct) * 8 ** power
+        power += 1
+    return denary
+
+def octal_to_bin(octal):
+    denary = octal_to_den(octal)
+    binary = den_to_n_base(denary, 2)
+    binary = leading_zeros(binary, 8)[::-1]
+    return binary
+    
+def octal_to_hex(octal):
+    denary = octal_to_den(octal)
+    hexadecimal = den_to_n_base(denary, 16)
+    return hexadecimal
