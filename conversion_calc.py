@@ -63,8 +63,8 @@ def den_to_bcd(denary):
     '''
     bcd = ''
     for den in str(denary):
-        binary = den_to_n_base(int(den), 2)[::-1]
-        binary = leading_zeros(binary, 4)
+        binary = den_to_n_base(int(den), 2)
+        binary = leading_zeros(binary, 4)[::-1]
         bcd += f'{binary} '
     return bcd
 
@@ -104,6 +104,16 @@ def bin_to_hex(binary):
     denary = bin_to_den(binary)
     hexadecimal = den_to_n_base(denary, 16)
     return hexadecimal
+
+def bin_to_octal(binary):
+    denary = bin_to_den(binary)
+    octal = den_to_n_base(denary, 8)
+    return octal
+
+def bin_to_bcd(binary):
+    denary = bin_to_den(binary)
+    bcd = den_to_bcd(denary)
+    return bcd
 
 # -------------------------------------------------------------------------------------------------
 # Negative denary <==> negative binary conversions
@@ -164,6 +174,16 @@ def hex_to_bin(hexadecimal):
         binary += nibble
     return binary
 
+def hex_to_octal(hexadecimal):
+    denary = hex_to_den(hexadecimal)
+    octal = den_to_n_base(denary, 8)
+    return octal
+
+def hex_to_bcd(hexadecimal):
+    denary = hex_to_den(hexadecimal)
+    bcd = den_to_bcd(denary)
+    return bcd
+
 # -------------------------------------------------------------------------------------------------
 # Octal ==> x conversions
 
@@ -187,7 +207,9 @@ def octal_to_hex(octal):
     hexadecimal = den_to_n_base(denary, 16)
     return hexadecimal
 
+def octal_to_bcd(octal):
+    denary = octal_to_den(octal)
+    bcd = den_to_bcd(denary)
+    return bcd
 # -------------------------------------------------------------------------------------------------
 # Binary Coded Decimal (BCD) ==> x conversions
-
-
