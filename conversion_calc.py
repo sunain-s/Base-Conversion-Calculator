@@ -152,6 +152,13 @@ def den_to_sm_bin(denary):
     binary = binary[::-1]
     return binary
 
+def sm_bin_to_den(sm_binary):
+    if sm_binary[0] == '0':
+        denary = bin_to_den(sm_binary)
+    elif sm_binary[0] == '1':
+        sm_binary = sm_binary[1:]
+        denary = f'-{bin_to_den(sm_binary)}'
+    return denary
 # -------------------------------------------------------------------------------------------------
 # Hexadecimal ==> x conversions
 
@@ -242,3 +249,42 @@ def bcd_to_octal(bcd):
     octal = den_to_n_base(denary, 8)
     return octal
 
+# -------------------------------------------------------------------------------------------------
+# Denary, Binary, Hexadecimal Addition
+
+def den_add_den(denary_one, denary_two):
+    result = denary_one + denary_two
+    return result
+
+def den_add_bin(denary, binary):
+    bin_denary = bin_to_den(binary)
+    result_den = denary + bin_denary
+    result_bin = den_to_n_base(result_den, 2)
+    return result_den, result_bin
+
+def den_add_hex(denary, hexadecimal):
+    hex_denary = hex_to_bin(hexadecimal)
+    result_den = denary + hex_denary
+    result_hex = den_to_n_base(result_den, 16)
+    return result_den, result_hex
+
+def bin_add_bin(binary_one, binary_two):
+    denary_one = bin_to_den(binary_one)
+    denary_two = bin_to_den(binary_two)
+    result = denary_one + denary_two
+    result = den_to_n_base(result, 2)
+    return result
+
+def bin_add_hex(binary, hexadecimal):
+    bin_denary = bin_to_den(binary)
+    hex_denary = hex_to_den(hexadecimal)
+    result_den = bin_denary + hex_denary
+    result_bin = den_to_n_base(result_den, 2)        
+    result_hex = den_to_n_base(result_den, 16)
+
+def hex_add_hex(hex_one, hex_two):
+    denary_one = hex_to_den(hex_one)
+    denary_two = hex_to_den(hex_two)
+    result = denary_one + denary_two
+    result = den_to_n_base(result, 2)
+    return result
