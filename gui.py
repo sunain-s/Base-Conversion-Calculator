@@ -24,6 +24,7 @@ def addition():
     bin_add_bin_button = pygame.Rect(630, 160, 605, 260)
     bin_add_hex_button = pygame.Rect(630, 430, 605, 260)
     hex_add_hex_button = pygame.Rect(630, 700, 605, 260)
+    calculate_button = pygame.Rect(1250, 160, 650, 100)
     while True:
         click = False
         for event in pygame.event.get():
@@ -33,7 +34,9 @@ def addition():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
-        
+
+        pygame.draw.rect(SCREEN, (255, 255, 255), calculate_button) 
+        draw_text('CALCULATE', button_font, accent_colour, SCREEN, calculate_button.centerx, calculate_button.centery)
         pygame.draw.line(SCREEN, accent_colour, (SCREEN_WIDTH/2 + 300, 0), (SCREEN_WIDTH/2 + 300, SCREEN_HEIGHT), 4)
         pygame.draw.rect(SCREEN, accent_colour, header_box)
         draw_text('BASE CONVERSION CALCULATOR', title_font, (255, 255, 255), SCREEN, SCREEN_WIDTH/2, 70)
@@ -43,6 +46,14 @@ def addition():
         pygame.draw.rect(SCREEN, button_colour, bin_add_bin_button)
         pygame.draw.rect(SCREEN, button_colour, bin_add_hex_button)
         pygame.draw.rect(SCREEN, button_colour, hex_add_hex_button)
+        draw_text('DENARY + DENARY', button_sub_font, accent_colour, SCREEN, den_add_den_button.centerx, den_add_den_button.centery)
+        draw_text('DENARY + BINARY', button_sub_font, accent_colour, SCREEN, den_add_bin_button.centerx, den_add_bin_button.centery)
+        draw_text('DENARY + HEXADECIMAL', button_sub_font, accent_colour, SCREEN, den_add_hex_button.centerx, den_add_hex_button.centery)
+        draw_text('BINARY + BINARY', button_sub_font, accent_colour, SCREEN, bin_add_bin_button.centerx, bin_add_bin_button.centery)
+        draw_text('BINARY + HEXADECIMAL', button_sub_font, accent_colour, SCREEN, bin_add_hex_button.centerx, bin_add_hex_button.centery)
+        draw_text('HEXADECIMAL + HEXADECIMAL', button_sub_font, accent_colour, SCREEN, hex_add_hex_button.centerx, hex_add_hex_button.centery)
+        
+        
 
 
         pygame.display.flip()
@@ -53,7 +64,16 @@ def addition():
 # Subtraction Window
 
 def subtraction():
- 
+    den_sub_den_button = pygame.Rect(10, 160, 400, 260)
+    den_sub_bin_button = pygame.Rect(10, 430, 400, 260)
+    den_sub_hex_button = pygame.Rect(10, 700, 400, 260)
+    bin_sub_bin_button = pygame.Rect(425, 160, 400, 260)
+    bin_sub_den_button = pygame.Rect(425, 430, 400, 260)
+    bin_sub_hex_button = pygame.Rect(425, 700, 400, 260)
+    hex_sub_hex_button = pygame.Rect(840, 160, 400, 260)
+    hex_sub_den_button = pygame.Rect(840, 430, 400, 260)
+    hex_sub_bin_button = pygame.Rect(840, 700, 400, 260)
+    calculate_button = pygame.Rect(1250, 160, 650, 100)
 
 
     while True:
@@ -66,10 +86,29 @@ def subtraction():
                 if event.button == 1:
                     click = True
 
+        pygame.draw.rect(SCREEN, (255, 255, 255), calculate_button) 
+        draw_text('CALCULATE', button_font, accent_colour, SCREEN, calculate_button.centerx, calculate_button.centery)
         pygame.draw.line(SCREEN, accent_colour, (SCREEN_WIDTH/2 + 300, 0), (SCREEN_WIDTH/2 + 300, SCREEN_HEIGHT), 4)
         pygame.draw.rect(SCREEN, accent_colour, header_box)
         draw_text('BASE CONVERSION CALCULATOR', title_font, (255, 255, 255), SCREEN, SCREEN_WIDTH/2, 70)
-
+        pygame.draw.rect(SCREEN, button_colour, den_sub_den_button)
+        pygame.draw.rect(SCREEN, button_colour, den_sub_bin_button)
+        pygame.draw.rect(SCREEN, button_colour, den_sub_hex_button)
+        pygame.draw.rect(SCREEN, button_colour, bin_sub_bin_button)
+        pygame.draw.rect(SCREEN, button_colour, bin_sub_den_button)
+        pygame.draw.rect(SCREEN, button_colour, bin_sub_hex_button)
+        pygame.draw.rect(SCREEN, button_colour, hex_sub_hex_button)
+        pygame.draw.rect(SCREEN, button_colour, hex_sub_den_button)
+        pygame.draw.rect(SCREEN, button_colour, hex_sub_bin_button)
+        draw_text('DENARY - DENARY', button_sub_font, accent_colour, SCREEN, den_sub_den_button.centerx, den_sub_den_button.centery)
+        draw_text('DENARY - BINARY', button_sub_font, accent_colour, SCREEN, den_sub_bin_button.centerx, den_sub_bin_button.centery)
+        draw_text('DENARY - HEXADECIMAL', button_sub_font, accent_colour, SCREEN, den_sub_hex_button.centerx, den_sub_hex_button.centery)
+        draw_text('BINARY - BINARY', button_sub_font, accent_colour, SCREEN, bin_sub_bin_button.centerx, bin_sub_bin_button.centery)
+        draw_text('BINARY - DENARY', button_sub_font, accent_colour, SCREEN, bin_sub_den_button.centerx, bin_sub_den_button.centery)
+        draw_text('BINARY - HEXADECIMAL', button_sub_font, accent_colour, SCREEN, bin_sub_hex_button.centerx, bin_sub_hex_button.centery)
+        draw_text('HEXADECIMAL - HEXADECIMAL', button_sub_font, accent_colour, SCREEN, hex_sub_hex_button.centerx, hex_sub_hex_button.centery)
+        draw_text('HEXADECIMAL - DENARY', button_sub_font, accent_colour, SCREEN, hex_sub_den_button.centerx, hex_sub_den_button.centery)
+        draw_text('HEXADECIMAL - BINARY', button_sub_font, accent_colour, SCREEN, hex_sub_bin_button.centerx, hex_sub_bin_button.centery)
 
         pygame.display.flip()
         clock.tick(60)
@@ -115,7 +154,7 @@ def menu():
                 addition()
         if subtraction_button.collidepoint(mx, my):
             if click:
-                addition()
+                subtraction()
 
 
         pygame.display.flip()
