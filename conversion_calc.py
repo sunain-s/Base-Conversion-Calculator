@@ -213,3 +213,32 @@ def octal_to_bcd(octal):
     return bcd
 # -------------------------------------------------------------------------------------------------
 # Binary Coded Decimal (BCD) ==> x conversions
+
+def bcd_to_den(bcd):
+    bcd = bcd.replace(' ', '')
+    bcd = leading_zeros(bcd, 4)[::-1]
+    nibble = ''
+    denary =''
+    for bit in bcd:
+        nibble += bit
+        if len(nibble) % 4 == 0:
+            bcd = bcd[4:]
+            denary += str(bin_to_den(nibble))
+            nibble = ''
+    return int(denary)
+
+def bcd_to_bin(bcd):
+    denary = bcd_to_den(bcd)
+    binary = den_to_n_base(denary, 2)
+    return binary
+
+def bcd_to_hex(bcd):
+    denary = bcd_to_den(bcd)
+    hexadecimal = den_to_n_base(denary, 16)
+    return hexadecimal
+
+def bcd_to_octal(bcd):
+    denary = bcd_to_den(bcd)
+    octal = den_to_n_base(denary, 8)
+    return octal
+
