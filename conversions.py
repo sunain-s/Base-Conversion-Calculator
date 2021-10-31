@@ -137,7 +137,7 @@ def neg_den_to_twos_comp_bin(denary):
     with denary conversions as intermediate steps
     '''
     denary *= -1
-    abs_binary = leading_zeros(den_to_n_base(denary, 2), 8)[::-1]
+    abs_binary = leading_zeros(den_to_n_base(denary, 2), 16)[::-1]
     inverted_binary = binary_inversion(abs_binary)
     twos_comp_binary = den_to_bin(bin_to_den(inverted_binary) + 1, 8)[::-1]
     return twos_comp_binary
@@ -348,7 +348,7 @@ def den_add_bin(denary, binary):
     returns the result in denary and binary forms
     '''
     bin_denary = bin_to_den(binary)
-    result_den = denary + bin_denary
+    result_den = int(denary) + bin_denary
     result_bin = den_to_n_base(result_den, 2)
     return result_den, result_bin
 
@@ -358,7 +358,7 @@ def den_add_hex(denary, hexadecimal):
     returns the result in denary and hexadecimal forms
     '''
     hex_denary = hex_to_den(hexadecimal)
-    result_den = denary + hex_denary
+    result_den = int(denary) + hex_denary
     result_hex = den_to_n_base(result_den, 16)
     return result_den, result_hex
 
@@ -404,7 +404,7 @@ def den_sub_den(denary_one, denary_two):
     Subtracts 1 denary value from another
     returns the result in denary form
     '''
-    result = denary_one - denary_two
+    result = int(denary_one) - int(denary_two)
     return result
 
 def den_sub_bin(denary, binary):
@@ -413,9 +413,9 @@ def den_sub_bin(denary, binary):
     returns the result in denary and binary forms
     '''
     bin_denary = bin_to_den(binary)
-    result_den = denary - bin_denary
+    result_den = int(denary) - bin_denary
     if result_den < 0:
-        result_bin = neg_den_to_twos_comp_bin(result_den)        
+        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}"
     else:
         result_bin = den_to_n_base(result_den, 2)
     return result_den, result_bin
@@ -426,7 +426,7 @@ def den_sub_hex(denary, hexadecimal):
     returns the result in denary and hexadecimal forms
     '''
     hex_denary = hex_to_den(hexadecimal)
-    result_den = denary - hex_denary
+    result_den = int(denary) - hex_denary
     if result_den < 0:       
         result_hex = f'-{den_to_n_base(result_den * -1, 16)}'
     else:
@@ -442,7 +442,7 @@ def bin_sub_bin(binary_one, binary_two):
     denary_two = bin_to_den(binary_two)
     result_den = denary_one - denary_two
     if result_den < 0:
-        result_bin = neg_den_to_twos_comp_bin(result_den)        
+        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}"
     else:
         result_bin = den_to_n_base(result_den, 2)
     return result_bin
@@ -453,9 +453,9 @@ def bin_sub_den(binary, denary):
     returns the result in binary and denary forms
     '''
     bin_denary = bin_to_den(binary)
-    result_den = bin_denary - denary
+    result_den = bin_denary - int(denary)
     if result_den < 0:
-        result_bin = neg_den_to_twos_comp_bin(result_den)        
+        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}"        
     else:
         result_bin = den_to_n_base(result_den, 2)
     return result_bin, result_den
@@ -469,7 +469,7 @@ def bin_sub_hex(binary, hexadecimal):
     hex_denary = hex_to_den(hexadecimal)
     result_den = bin_denary - hex_denary
     if result_den < 0:
-        result_bin = neg_den_to_twos_comp_bin(result_den)        
+        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}"        
         result_hex = f'-{den_to_n_base(result_den * -1, 16)}'
     else:
         result_bin = den_to_n_base(result_den, 2)
@@ -490,13 +490,13 @@ def hex_sub_hex(hex_one, hex_two):
         result_hex = den_to_n_base(result_den, 16)
     return result_hex
 
-def hex_sub_den(denary, hexadecimal):
+def hex_sub_den(hexadecimal, denary):
     '''
     Subtracts denary value from hexadecimal value
     returns the result in hexadecimal and denary forms
     '''
     hex_denary = hex_to_den(hexadecimal)
-    result_den = hex_denary - denary
+    result_den = hex_denary - int(denary)
     if result_den < 0:       
         result_hex = f'-{den_to_n_base(result_den * -1, 16)}'
     else:
@@ -512,7 +512,7 @@ def hex_sub_bin(hexadecimal, binary):
     hex_denary = hex_to_den(hexadecimal)
     result_den = hex_denary - bin_denary
     if result_den < 0:
-        result_bin = neg_den_to_twos_comp_bin(result_den)        
+        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}"       
         result_hex = f'-{den_to_n_base(result_den * -1, 16)}'
     else:
         result_bin = den_to_n_base(result_den, 2)
