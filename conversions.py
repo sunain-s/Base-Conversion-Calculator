@@ -39,6 +39,7 @@ def den_to_n_base(denary, base):
     '''
     Converts denary values to any base up to and including base-36 
     '''
+    denary = int(denary)
     base_num = ''
     if denary == 0:
         base_num = '0'
@@ -71,6 +72,7 @@ def den_to_bin(denary, leading):
     Secondary function only used in neg_den_to_twos_comp() function as is more convenient
     ==> leading = 8, gives a byte e.g. 11001 ==> 00011001
     '''
+    denary = int(denary)
     binary = ''
     if denary < 0:
         denary *= -1
@@ -337,7 +339,7 @@ def den_add_den(denary_one, denary_two):
     Adds 2 denary values together
     returns the result in denary form
     '''
-    result = denary_one + denary_two
+    result = int(denary_one) + int(denary_two)
     return result
 
 def den_add_bin(denary, binary):

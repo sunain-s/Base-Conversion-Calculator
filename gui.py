@@ -1,6 +1,8 @@
 # Graphical Interface for Conversion Calculator
 import sys
 import pygame
+import conversions
+from conversions import *
 
 # -------------------------------------------------------------------------------------------------
 # Utility Functions
@@ -25,15 +27,20 @@ def addition():
     bin_add_hex_button = pygame.Rect(630, 430, 605, 260)
     hex_add_hex_button = pygame.Rect(630, 700, 605, 260)
     calculate_button = pygame.Rect(1250, 160, 650, 100)
+    base_1_box = pygame.Rect(1254, 290, 648, 60)
+    base_2_box = pygame.Rect(1254, 380, 648, 60)
+    output_box = pygame.Rect(1254, 680, 648, 300)
+    bases = ['', '']
+    mode_selected = False
+    input_1_active = False
+    input_2_active = False
+    multiple_results = None
+    base_1_value = ''
+    base_2_value = ''
+    result = ''
+    funcs = [den_add_den, den_add_bin, den_add_hex, bin_add_bin, bin_add_hex, hex_add_hex]
+    func = []
     while True:
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
 
         pygame.draw.rect(SCREEN, (255, 255, 255), calculate_button) 
         draw_text('CALCULATE', button_font, accent_colour, SCREEN, calculate_button.centerx, calculate_button.centery)
@@ -52,8 +59,97 @@ def addition():
         draw_text('BINARY + BINARY', button_sub_font, accent_colour, SCREEN, bin_add_bin_button.centerx, bin_add_bin_button.centery)
         draw_text('BINARY + HEXADECIMAL', button_sub_font, accent_colour, SCREEN, bin_add_hex_button.centerx, bin_add_hex_button.centery)
         draw_text('HEXADECIMAL + HEXADECIMAL', button_sub_font, accent_colour, SCREEN, hex_add_hex_button.centerx, hex_add_hex_button.centery)
+        pygame.draw.rect(SCREEN, button_colour, base_1_box)
+        pygame.draw.rect(SCREEN, button_colour, base_2_box)        
+        draw_text(base_1_value, button_sub_font, accent_colour, SCREEN, base_1_box.centerx, base_1_box.centery)
+        draw_text(base_2_value, button_sub_font, accent_colour, SCREEN, base_2_box.centerx, base_2_box.centery)
+        pygame.draw.rect(SCREEN, button_colour, output_box)
+        draw_text('Result:', button_sub_font, accent_colour, SCREEN, 1300, 665)
+
+        mx, my = pygame.mouse.get_pos()
+        if den_add_den_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                bases = ['Denary', 'Denary']
+                func = funcs[0]
+        if den_add_bin_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                bases = ['Denary', 'Binary']
+                func = funcs[1]
+        if den_add_hex_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                bases = ['Denary', 'Hex']
+                func = funcs[2]
+        if bin_add_bin_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                bases = ['Binary', 'Binary']
+                func = funcs[3]
+        if bin_add_hex_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                bases = ['Binary', 'Hex']
+                func = funcs[4]
+        if hex_add_hex_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                bases = ['Hex', 'Hex']
+                func = funcs[5]
+
+        draw_text(f'Enter {bases[0]} value:', button_sub_font, accent_colour, SCREEN, 1350, 275)
+        draw_text(f'Enter {bases[1]} value:', button_sub_font, accent_colour, SCREEN, 1350, 365)
+        click = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                if event.type == pygame.MOUSEBUTTONDOWN and base_1_box.collidepoint(mx, my):
+                    input_1_active = True
+                    input_2_active = False
+                    base_1_value = ''
+                if event.type == pygame.MOUSEBUTTONDOWN and base_2_box.collidepoint(mx, my):
+                    input_1_active = False
+                    input_2_active = True
+                    base_2_value = ''
+            if mode_selected:
+                if input_1_active:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_BACKSPACE:
+                            base_1_value = base_1_value[:-1]
+                        else:
+                            base_1_value += event.unicode
+                if input_2_active:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_BACKSPACE:
+                            base_2_value = base_2_value[:-1]
+                        else:
+                            base_2_value += event.unicode 
         
+        if calculate_button.collidepoint(mx, my):
+            if click:
+                result = func(base_1_value, base_2_value)
+                if isinstance(result, tuple):
+                    result_one = result[0]
+                    result_two = result[1]
+                    multiple_results = True
+                else:
+                    multiple_results = False
+                
         
+        if multiple_results:
+            draw_text(f'{bases[0]}: {result_one}', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery - 50)
+            draw_text(f'{bases[1]}: {result_two}', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery + 50)
+        elif multiple_results == False:
+            draw_text(f'{bases[0]}: {result}', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery)
+        elif multiple_results == None:
+            draw_text('', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery)
+
+
 
 
         pygame.display.flip()
