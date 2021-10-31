@@ -1,6 +1,7 @@
 # Graphical Interface for Conversion Calculator
 import sys
 import pygame
+from pygame.constants import K_ESCAPE
 import conversions
 from conversions import *
 
@@ -20,6 +21,9 @@ def draw_text(text, font, color, surface, x, y):
 # Addition Window
 
 def addition():
+    '''
+    Addition Menu where calculation mode is selected and result is represented in relevant bases
+    '''
     den_add_den_button = pygame.Rect(15, 160, 605, 260)
     den_add_bin_button = pygame.Rect(15, 430, 605, 260)
     den_add_hex_button = pygame.Rect(15, 700, 605, 260)
@@ -40,8 +44,8 @@ def addition():
     result = ''
     funcs = [den_add_den, den_add_bin, den_add_hex, bin_add_bin, bin_add_hex, hex_add_hex]
     func = []
-    while True:
 
+    while True:
         pygame.draw.rect(SCREEN, (255, 255, 255), calculate_button) 
         draw_text('CALCULATE', button_font, accent_colour, SCREEN, calculate_button.centerx, calculate_button.centery)
         pygame.draw.line(SCREEN, accent_colour, (SCREEN_WIDTH/2 + 300, 0), (SCREEN_WIDTH/2 + 300, SCREEN_HEIGHT), 4)
@@ -105,6 +109,9 @@ def addition():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_ESCAPE:
+                    menu()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -140,7 +147,6 @@ def addition():
                 else:
                     multiple_results = False
                 
-        
         if multiple_results:
             draw_text(f'{bases[0]}: {result_one}', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery - 50)
             draw_text(f'{bases[1]}: {result_two}', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery + 50)
@@ -148,9 +154,6 @@ def addition():
             draw_text(f'{bases[0]}: {result}', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery)
         elif multiple_results == None:
             draw_text('', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery)
-
-
-
 
         pygame.display.flip()
         clock.tick(60)
@@ -160,6 +163,9 @@ def addition():
 # Subtraction Window
 
 def subtraction():
+    '''
+    Subtraction Menu where calculation mode is selected and result is represented in relevant bases
+    '''
     den_sub_den_button = pygame.Rect(10, 160, 400, 260)
     den_sub_bin_button = pygame.Rect(10, 430, 400, 260)
     den_sub_hex_button = pygame.Rect(10, 700, 400, 260)
@@ -183,8 +189,8 @@ def subtraction():
     result = ''
     funcs = [den_sub_den, den_sub_bin, den_sub_hex, bin_sub_bin, bin_sub_den, bin_sub_hex, hex_sub_hex, hex_sub_den, hex_sub_bin]
     func = []
-    while True:
 
+    while True: 
         pygame.draw.rect(SCREEN, (255, 255, 255), calculate_button) 
         draw_text('CALCULATE', button_font, accent_colour, SCREEN, calculate_button.centerx, calculate_button.centery)
         pygame.draw.line(SCREEN, accent_colour, (SCREEN_WIDTH/2 + 300, 0), (SCREEN_WIDTH/2 + 300, SCREEN_HEIGHT), 4)
@@ -269,6 +275,9 @@ def subtraction():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_ESCAPE:
+                    menu()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -303,7 +312,6 @@ def subtraction():
                     multiple_results = True
                 else:
                     multiple_results = False
-                
         
         if multiple_results:
             draw_text(f'{bases[0]}: {result_one}', button_sub_font, accent_colour, SCREEN, output_box.centerx, output_box.centery - 50)
@@ -324,12 +332,15 @@ def menu():
     '''
     Main Menu where conversions take place as well as 
     '''
-    
-
-      
     addition_button = pygame.Rect(1275, 165, 600, 370)
     subtraction_button = pygame.Rect(1275, 585, 600, 370)
-    
+    conversion_button = pygame.Rect(5, 150, 300, 165)
+    denary_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 7, 300, 120)
+    binary_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 137, 300, 120)
+    hex_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 267, 300, 120)
+    octal_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 397, 300, 120)
+    bcd_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 527, 300, 120)
+
     while True:
         click = False
         for event in pygame.event.get():
@@ -339,8 +350,7 @@ def menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
-
-                            
+                 
         pygame.draw.line(SCREEN, accent_colour, (SCREEN_WIDTH/2 + 300, 0), (SCREEN_WIDTH/2 + 300, SCREEN_HEIGHT), 4)
         pygame.draw.rect(SCREEN, accent_colour, header_box)
         draw_text('BASE CONVERSION CALCULATOR', title_font, (255, 255, 255), SCREEN, SCREEN_WIDTH/2, 70)
@@ -350,6 +360,24 @@ def menu():
         draw_text('Denary - Binary - Hexadecimal', button_sub_font, faint_accent_colour, SCREEN, addition_button.centerx, addition_button.centery + 40)
         draw_text('SUBTRACTION', button_font, accent_colour, SCREEN, subtraction_button.centerx, subtraction_button.centery)
         draw_text('Denary - Binary - Hexadecimal', button_sub_font, faint_accent_colour, SCREEN, subtraction_button.centerx, subtraction_button.centery + 40)
+        pygame.draw.line(SCREEN, accent_colour, (0, SCREEN_HEIGHT/3), (1250, SCREEN_HEIGHT/3), 4)
+        pygame.draw.line(SCREEN, accent_colour, (315, 140), (315, SCREEN_HEIGHT), 4)
+        pygame.draw.rect(SCREEN, (255, 0, 0), conversion_button)
+        draw_text('CONVERT', button_font, (255, 255, 255), SCREEN, conversion_button.centerx, conversion_button.centery)
+        pygame.draw.rect(SCREEN, button_colour, denary_button)
+        pygame.draw.rect(SCREEN, button_colour, binary_button)
+        pygame.draw.rect(SCREEN, button_colour, hex_button)
+        pygame.draw.rect(SCREEN, button_colour, octal_button)
+        pygame.draw.rect(SCREEN, button_colour, bcd_button)
+        pygame.draw.line(SCREEN, accent_colour, (0, denary_button.bottom + 5), (1248, denary_button.bottom + 5), 3)
+        pygame.draw.line(SCREEN, accent_colour, (0, binary_button.bottom + 5), (1248, binary_button.bottom + 5), 3)
+        pygame.draw.line(SCREEN, accent_colour, (0, hex_button.bottom + 5), (1248, hex_button.bottom + 5), 3)
+        pygame.draw.line(SCREEN, accent_colour, (0, octal_button.bottom + 5), (1248, octal_button.bottom + 5), 3)
+        draw_text('DENARY', button_font, accent_colour, SCREEN, denary_button.centerx, denary_button.centery)
+        draw_text('BINARY', button_font, accent_colour, SCREEN, binary_button.centerx, binary_button.centery)
+        draw_text('HEX', button_font, accent_colour, SCREEN, hex_button.centerx, hex_button.centery)        
+        draw_text('OCTAL', button_font, accent_colour, SCREEN, octal_button.centerx, octal_button.centery)
+        draw_text('BCD', button_font, accent_colour, SCREEN, bcd_button.centerx, bcd_button.centery)
 
         mx, my = pygame.mouse.get_pos()
         if addition_button.collidepoint(mx, my):
@@ -358,7 +386,6 @@ def menu():
         if subtraction_button.collidepoint(mx, my):
             if click:
                 subtraction()
-
 
         pygame.display.flip()
         clock.tick(60)
@@ -376,7 +403,7 @@ pygame.display.set_caption('Base Conversion Calculator | Asianguy_123')
 title_font = pygame.font.SysFont('corbelb', 100)
 button_font = pygame.font.SysFont('corbelb', 80)
 button_sub_font = pygame.font.SysFont('corbelb', 30)
-bg_colour = pygame.Color('#DFDFDF')
+bg_colour = pygame.Color('#F1F1F1')
 accent_colour = pygame.Color('#3B3D3B')
 faint_accent_colour = pygame.Color('#A2A3A2')
 button_colour = pygame.Color('#fff3f3')
