@@ -1,9 +1,13 @@
 # Graphical Interface for Conversion Calculator
+
+# Imports
 import sys
 import pygame
 from conversions import *
 
-# Strange code that doesnt work for some reason that i want to ask about
+# Strange code that doesnt work for some reason that i want to ask about:
+
+# [line 680] 
 # if results_bool:
 #     output_boxes = [den_out_box, oc_out_box, tc_out_box, sm_out_box, hex_out_box, octal_out_box, bcd_out_box]
 #     for result in results:                
