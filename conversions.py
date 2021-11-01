@@ -136,6 +136,7 @@ def neg_den_to_twos_comp_bin(denary):
     done via absolute binary value inversion and addition
     with denary conversions as intermediate steps
     '''
+    denary = int(denary)
     denary *= -1
     abs_binary = leading_zeros(den_to_n_base(denary, 2), 16)[::-1]
     inverted_binary = binary_inversion(abs_binary)
@@ -158,6 +159,7 @@ def neg_den_to_ones_comp_bin(denary):
     Converts negative denary to One's Complement binary string
     via binary inversion
     '''
+    denary = int(denary)
     denary *= -1
     binary = den_to_n_base(denary, 2)
     binary = leading_zeros(binary, 8)[::-1]
@@ -169,6 +171,7 @@ def den_to_sm_bin(denary):
     Converts positive or negative denary to its sign magnitude binary string
     by converting the value and adding a sign bit post conversion
     '''
+    denary = int(denary)
     if denary < 0:
         abs_den = denary * -1
     else:
@@ -194,6 +197,21 @@ def sm_bin_to_den(sm_binary):
         denary = f'-{bin_to_den(sm_binary)}'
     return denary
 
+def twos_comp_to_sm_bin(twos_comp):
+    denary = twos_comp_bin_to_neg_den(twos_comp)
+    sm_bin = den_to_sm_bin(int(denary))
+    return sm_bin
+
+def twos_comp_to_ones_comp(twos_comp):
+    denary = twos_comp_bin_to_neg_den(twos_comp)
+    ones_comp = neg_den_to_ones_comp_bin(int(denary))
+    return ones_comp
+
+def bin_to_sm_bin(binary):
+    denary = bin_to_den(binary)
+    sm_bin = den_to_sm_bin(denary)
+    return sm_bin
+
 # -------------------------------------------------------------------------------------------------
 # Hexadecimal ==> x conversions
 
@@ -215,13 +233,14 @@ def hex_to_bin(hexadecimal):
     Converts hexadecimal string to binary string
     using denary conversions as intermediate steps
     '''
-    hex = [hex for hex in hexadecimal]
     binary = ''
-    for i in hex:
-        denary = hex_to_den(i)
-        nibble = den_to_n_base(denary, 2)
-        binary += nibble
-    return binary
+    denary = hex_to_den(hexadecimal)
+    binary = den_to_n_base(denary, 2)
+    binary = leading_zeros(binary, 8)[::-1]
+    if binary[0] == '1':
+        binary = binary[::-1]
+        binary += '0'
+    return binary[::-1]
 
 def hex_to_octal(hexadecimal):
     '''
@@ -263,8 +282,9 @@ def octal_to_bin(octal):
     '''
     denary = octal_to_den(octal)
     binary = den_to_n_base(denary, 2)
-    binary = leading_zeros(binary, 8)[::-1]
-    return binary
+    binary = leading_zeros(binary, 8)
+    binary += '0'
+    return binary[::-1]
     
 def octal_to_hex(octal):
     '''
@@ -310,8 +330,9 @@ def bcd_to_bin(bcd):
     using denary conversions as intermediate steps
     '''
     denary = bcd_to_den(bcd)
-    binary = den_to_n_base(denary, 2)
-    return binary
+    binary = den_to_n_base(denary, 2)[::-1]
+    binary += '0'
+    return binary[::-1]
 
 def bcd_to_hex(bcd):
     '''
@@ -501,7 +522,7 @@ def hex_sub_den(hexadecimal, denary):
         result_hex = f'-{den_to_n_base(result_den * -1, 16)}'
     else:
         result_hex = den_to_n_base(result_den, 16)
-    return result_den, result_hex
+    return result_hex, result_den
 
 def hex_sub_bin(hexadecimal, binary):
     '''
