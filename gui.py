@@ -1,9 +1,13 @@
 # Graphical Interface for Conversion Calculator
 import sys
 import pygame
-from pygame.constants import K_ESCAPE
-import conversions
 from conversions import *
+
+# Strange code that doesnt work for some reason that i want to ask about
+# if results_bool:
+#     output_boxes = [den_out_box, oc_out_box, tc_out_box, sm_out_box, hex_out_box, octal_out_box, bcd_out_box]
+#     for result in results:                
+#         draw_text(str(result), button_sub_font, accent_colour, SCREEN, output_boxes[results.index(result)].centerx, output_boxes[results.index(result)].centery)
 
 # -------------------------------------------------------------------------------------------------
 # Utility Functions
@@ -110,7 +114,7 @@ def addition():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     menu()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -276,7 +280,7 @@ def subtraction():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     menu()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -340,16 +344,32 @@ def menu():
     hex_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 267, 300, 120)
     octal_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 397, 300, 120)
     bcd_button = pygame.Rect(5, SCREEN_HEIGHT/3 + 527, 300, 120)
+    input_box = pygame.Rect(325, 150, 913, 165)
+    den_out_box = pygame.Rect(325, SCREEN_HEIGHT/3 + 7, 913, 120)
+    oc_out_box = pygame.Rect(325, SCREEN_HEIGHT/3 + 137, 913, 35)
+    tc_out_box = pygame.Rect(325, SCREEN_HEIGHT/3 + 177, 913, 40)
+    sm_out_box = pygame.Rect(325, SCREEN_HEIGHT/3 + 222, 913, 35)
+    hex_out_box = pygame.Rect(325, SCREEN_HEIGHT/3 + 267, 913, 120)
+    octal_out_box = pygame.Rect(325, SCREEN_HEIGHT/3 + 397, 913, 120)
+    bcd_out_box = pygame.Rect(325, SCREEN_HEIGHT/3 + 527, 913, 120)
 
-    while True:
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
+
+    mode_selected = False
+    input_active = False
+    input_value = ''
+    
+    new_funcs_list = []
+    den_to_x = False
+    neg_den_to_x = False
+    bin_to_x = False
+    neg_bin_to_x = False
+    hex_to_x = False
+    octal_to_x = False
+    bcd_to_x = False
+    results = []
+    results_bool = False
+    click = False
+    while True: 
                  
         pygame.draw.line(SCREEN, accent_colour, (SCREEN_WIDTH/2 + 300, 0), (SCREEN_WIDTH/2 + 300, SCREEN_HEIGHT), 4)
         pygame.draw.rect(SCREEN, accent_colour, header_box)
@@ -369,15 +389,33 @@ def menu():
         pygame.draw.rect(SCREEN, button_colour, hex_button)
         pygame.draw.rect(SCREEN, button_colour, octal_button)
         pygame.draw.rect(SCREEN, button_colour, bcd_button)
+
+        pygame.draw.rect(SCREEN, bg_colour, den_out_box)
+        pygame.draw.rect(SCREEN, bg_colour, oc_out_box)
+        pygame.draw.rect(SCREEN, bg_colour, tc_out_box)
+        pygame.draw.rect(SCREEN, bg_colour, sm_out_box)
+        pygame.draw.rect(SCREEN, bg_colour, hex_out_box)
+        pygame.draw.rect(SCREEN, bg_colour, octal_out_box)
+        pygame.draw.rect(SCREEN, bg_colour, bcd_out_box)
+    
         pygame.draw.line(SCREEN, accent_colour, (0, denary_button.bottom + 5), (1248, denary_button.bottom + 5), 3)
         pygame.draw.line(SCREEN, accent_colour, (0, binary_button.bottom + 5), (1248, binary_button.bottom + 5), 3)
         pygame.draw.line(SCREEN, accent_colour, (0, hex_button.bottom + 5), (1248, hex_button.bottom + 5), 3)
         pygame.draw.line(SCREEN, accent_colour, (0, octal_button.bottom + 5), (1248, octal_button.bottom + 5), 3)
         draw_text('DENARY', button_font, accent_colour, SCREEN, denary_button.centerx, denary_button.centery)
         draw_text('BINARY', button_font, accent_colour, SCREEN, binary_button.centerx, binary_button.centery)
+        draw_text('Input TC Only', button_sub_font, faint_accent_colour, SCREEN, binary_button.centerx, binary_button.centery + 40)
+        draw_text('OC', button_sub_font, faint_accent_colour, SCREEN, binary_button.centerx + 130, binary_button.centery - 40)
+        pygame.draw.line(SCREEN, accent_colour, (315, binary_button.centery - 22.5), (1248, binary_button.centery - 22.5), 1)
+        pygame.draw.line(SCREEN, accent_colour, (315, binary_button.centery + 22.5), (1248, binary_button.centery + 22.5), 1)
+        draw_text('TC', button_sub_font, faint_accent_colour, SCREEN, binary_button.centerx + 130, binary_button.centery)
+        draw_text('SM', button_sub_font, faint_accent_colour, SCREEN, binary_button.centerx + 130, binary_button.centery + 40)
         draw_text('HEX', button_font, accent_colour, SCREEN, hex_button.centerx, hex_button.centery)        
         draw_text('OCTAL', button_font, accent_colour, SCREEN, octal_button.centerx, octal_button.centery)
         draw_text('BCD', button_font, accent_colour, SCREEN, bcd_button.centerx, bcd_button.centery)
+        pygame.draw.rect(SCREEN, (255, 255, 255), input_box)
+        draw_text(input_value, button_font, accent_colour, SCREEN, input_box.centerx, input_box.centery)
+
 
         mx, my = pygame.mouse.get_pos()
         if addition_button.collidepoint(mx, my):
@@ -386,6 +424,143 @@ def menu():
         if subtraction_button.collidepoint(mx, my):
             if click:
                 subtraction()
+        if denary_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                den_to_x = True
+                neg_den_to_x = False
+                bin_to_x = False
+                neg_bin_to_x = False
+                hex_to_x = False
+                octal_to_x = False
+                bcd_to_x = False
+                results_bool = False
+        if binary_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                den_to_x = False
+                neg_den_to_x = False
+                bin_to_x = True
+                neg_bin_to_x = False
+                hex_to_x = False
+                octal_to_x = False
+                bcd_to_x = False
+                results_bool = False
+        if hex_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                den_to_x = False
+                neg_den_to_x = False
+                bin_to_x = False
+                neg_bin_to_x = False
+                hex_to_x = True
+                octal_to_x = False
+                bcd_to_x = False
+                results_bool = False
+        if octal_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                den_to_x = False
+                neg_den_to_x = False
+                bin_to_x = False
+                neg_bin_to_x = False
+                hex_to_x = False
+                octal_to_x = True
+                bcd_to_x = False
+                results_bool = False
+        if bcd_button.collidepoint(mx, my):
+            if click:
+                mode_selected = True
+                den_to_x = False
+                neg_den_to_x = False
+                bin_to_x = False
+                neg_bin_to_x = False
+                hex_to_x = False
+                octal_to_x = False
+                bcd_to_x = True
+                results_bool = False
+        
+        click = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                if event.type == pygame.MOUSEBUTTONDOWN and input_box.collidepoint(mx, my):
+                    input_active = True
+                    input_value = ''
+            if mode_selected:
+                if input_active:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_BACKSPACE:
+                            input_value = input_value[:-1]
+                        else:
+                            input_value += event.unicode
+                
+
+        if conversion_button.collidepoint(mx, my):
+            if click:    
+                
+    #             funcs_list = [
+    #     [bin_to_den, '', input_value, bin_to_sm_bin, bin_to_hex, bin_to_octal, bin_to_bcd],
+    #     [hex_to_den, '', '', hex_to_bin, input_value, hex_to_octal, hex_to_bcd],
+    #     [octal_to_den, '', '', octal_to_bin, octal_to_hex, input_value, octal_to_bcd],
+    #     [bcd_to_den, '', '', bcd_to_bin, bcd_to_hex, bcd_to_octal, input_value]
+    # ]
+                if den_to_x:
+                    results = []
+                    if int(input_value) < 0:
+                        neg_den_to_x = True
+                    if neg_den_to_x:
+                        results.extend([input_value, neg_den_to_ones_comp_bin(input_value), neg_den_to_twos_comp_bin(input_value), den_to_sm_bin(input_value), '', '', ''])
+                    else:
+                        results.extend([input_value, '', '', den_to_sm_bin(input_value), den_to_n_base(input_value, 16), den_to_n_base(input_value, 8), den_to_bcd(input_value)])
+                    results_bool = True
+
+                if bin_to_x:
+                    patch_bool = True
+                    results = []
+                    if input_value[0] == '1':
+                        neg_bin_to_x = True
+                    if neg_bin_to_x:
+                        results.extend([twos_comp_bin_to_neg_den(input_value), twos_comp_to_ones_comp(input_value), input_value, twos_comp_to_sm_bin(input_value), '', '', ''])
+                    else:
+                        results.extend([bin_to_den(input_value), '', input_value, input_value, bin_to_hex(input_value), bin_to_octal(input_value), bin_to_bcd(input_value)])
+                    results_bool = True
+
+                if hex_to_x:
+                    results = []
+                    results.extend([hex_to_den(input_value), '', '', hex_to_bin(input_value), input_value, hex_to_octal(input_value), hex_to_bcd(input_value)])
+                    results_bool = True
+
+                if octal_to_x:
+                    results = []
+                    results.extend([octal_to_den(input_value), '', '', octal_to_bin(input_value), octal_to_hex(input_value), input_value, octal_to_bcd(input_value)])
+                    results_bool = True
+
+                if bcd_to_x:
+                    results = []
+                    results.extend([bcd_to_den(input_value), '', '', bcd_to_bin(input_value), bcd_to_hex(input_value), bcd_to_octal(input_value), input_value])
+                    results_bool = True
+
+        if results_bool:              
+            draw_text(str(results[0]), button_sub_font, accent_colour, SCREEN, den_out_box.centerx, den_out_box.centery)
+            draw_text(str(results[1]), button_sub_font, accent_colour, SCREEN, oc_out_box.centerx, oc_out_box.centery)
+            draw_text(str(results[2]), button_sub_font, accent_colour, SCREEN, tc_out_box.centerx, tc_out_box.centery)
+            draw_text(str(results[3]), button_sub_font, accent_colour, SCREEN, sm_out_box.centerx, sm_out_box.centery)
+            draw_text(str(results[4]), button_sub_font, accent_colour, SCREEN, hex_out_box.centerx, hex_out_box.centery)
+            draw_text(str(results[5]), button_sub_font, accent_colour, SCREEN, octal_out_box.centerx, octal_out_box.centery)
+            draw_text(str(results[6]), button_sub_font, accent_colour, SCREEN, bcd_out_box.centerx, bcd_out_box.centery)
+            
+            den_to_x = False
+            neg_den_to_x = False
+            bin_to_x = False
+            neg_bin_to_x = False
+            hex_to_x = False
+            octal_to_x = False
+            bcd_to_x = False
 
         pygame.display.flip()
         clock.tick(60)
@@ -403,7 +578,7 @@ pygame.display.set_caption('Base Conversion Calculator | Asianguy_123')
 title_font = pygame.font.SysFont('corbelb', 100)
 button_font = pygame.font.SysFont('corbelb', 80)
 button_sub_font = pygame.font.SysFont('corbelb', 30)
-bg_colour = pygame.Color('#F1F1F1')
+bg_colour = pygame.Color('#E1E1E1')
 accent_colour = pygame.Color('#3B3D3B')
 faint_accent_colour = pygame.Color('#A2A3A2')
 button_colour = pygame.Color('#fff3f3')
