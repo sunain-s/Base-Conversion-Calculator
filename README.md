@@ -10,8 +10,20 @@ A base conversion calculator between binary, denary, hexadecimal, octal and BCD 
  - **Level 6** - denary, binary and hexadecimal addition and subtraction
  - **Level 7** - create a GUI for the calculator
 
-# How to run
-**coming soon**
+# How to run and use
+Run 'gui.py' and the window will appear, esc can be used to return to main menu
+
+**To Convert**
+ - click the side button of the base you are converting from
+ - then click the white strip next to the convert button
+ - enter the digit and click convert
+
+**To Add/Subtract**
+ - click add/subtract button
+ - select addition/subtraction type e.g. denary - hexadecimal
+ - click input boxe on right and enter appropriate values
+ - click calculate button
+
 
 # What I learnt
  - how to convert binary, denary and hexadecimal <==>
