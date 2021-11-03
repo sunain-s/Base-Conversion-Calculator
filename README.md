@@ -28,5 +28,12 @@ Run 'gui.py' and the window will appear, esc can be used to return to main menu
 # What I learnt
  - how to convert binary, denary and hexadecimal <==>
  - how to represent and convert to and from negative binary using two's complement
+ - how to represent and convert to and from octal
+ - how to represent and convert to and from binary coded decimal (BCD)
+ - how to add denary, binary and hexadecimal
+ - how to subtract denary, binary and hexadecimal
+ - how to create a clean GUI
+ - using functional help() comment documentation
+ - using comments to divide code into separate overall blocks
 
 # Improvements
