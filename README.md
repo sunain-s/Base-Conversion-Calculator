@@ -37,3 +37,8 @@ Run 'gui.py' and the window will appear, esc can be used to return to main menu
  - using comments to divide code into separate overall blocks
 
 # Improvements
+- Add a window that shows the process of working out results
+- Currently has no input validation e.g. denary values can be entered for binary
+- Slight error in Two's Complement conversion
+  
+  ==> 100 = -4, -0 is outputted
