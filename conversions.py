@@ -3,11 +3,13 @@
 # -------------------------------------------------------------------------------------------------
 # Frequent Comments
 
-# string = string[::-1] 
-#   ==> reverses string
+'''
+string = string[::-1] 
+  ==> reverses string
 
-# denary *= -1
-#   ==> making absolute denary value
+denary *= -1
+  ==> making absolute denary value
+'''
 
 # -------------------------------------------------------------------------------------------------
 # Utility functions
@@ -497,7 +499,7 @@ def den_sub_bin(denary, binary):
     result_den = int(denary) - bin_denary
     # accounts for negative binary and represents in negative two's complement
     if result_den < 0:
-        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}"
+        result_bin = f"Two's complement; {neg_den_to_twos_comp_bin(result_den)}"
     else:
         result_bin = den_to_n_base(result_den, 2)
     return result_den, result_bin
@@ -528,7 +530,7 @@ def bin_sub_bin(binary_one, binary_two):
     result_den = denary_one - denary_two
     # accounts for negative binary
     if result_den < 0:
-        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement
+        result_bin = f"Two's complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement
     else:
         result_bin = den_to_n_base(result_den, 2)
     return result_bin
@@ -543,7 +545,7 @@ def bin_sub_den(binary, denary):
     result_den = bin_denary - int(denary)
     # accounts for negative binary
     if result_den < 0:
-        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement   
+        result_bin = f"Two's complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement   
     else:
         result_bin = den_to_n_base(result_den, 2)
     return result_bin, result_den
@@ -559,7 +561,7 @@ def bin_sub_hex(binary, hexadecimal):
     result_den = bin_denary - hex_denary
     # accounts for negative binary and negative hexadecimal
     if result_den < 0:
-        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement 
+        result_bin = f"Two's complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement 
         result_hex = f'-{den_to_n_base(result_den * -1, 16)}' # adds '-' in front of absolute hexadecimal 
     else:
         result_bin = den_to_n_base(result_den, 2)
@@ -608,7 +610,7 @@ def hex_sub_bin(hexadecimal, binary):
     result_den = hex_denary - bin_denary
     # accounts for negative hexadecimal and negative binary
     if result_den < 0:
-        result_bin = f"Two's Complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement
+        result_bin = f"Two's complement; {neg_den_to_twos_comp_bin(result_den)}" # represents binary in two's complement
         result_hex = f'-{den_to_n_base(result_den * -1, 16)}' # adds '-' in front of absolute hexadecimal value
     else:
         result_bin = den_to_n_base(result_den, 2)
