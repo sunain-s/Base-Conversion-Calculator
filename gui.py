@@ -710,7 +710,7 @@ clock = pygame.time.Clock()
 SCREEN_WIDTH = 1900
 SCREEN_HEIGHT = 980
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Base Conversion Calculator | Asianguy_123')
+pygame.display.set_caption('Base Conversion Calculator | Sunain Syed')
 title_font = pygame.font.SysFont('corbelb', 100)
 button_font = pygame.font.SysFont('corbelb', 80)
 button_sub_font = pygame.font.SysFont('corbelb', 30)
